@@ -15,7 +15,7 @@ export class Postagem {
 
      @Transform(({ value }:TransformFnParams) => value?.trim())//Validação para retirar os espaços em branco no início e no final do campo
     @IsNotEmpty()//Validação para não aceitar campos vazios
-     @Column({ length: 1000, nullable: false })//Criando a coluna no banco de dados / CREATE TABLE titulo VARCHAR(255) NOT NULL
+     @Column({ length: 1000, nullable: false })//Criando a coluna no banco de dados / CREATE TABLE texto VARCHAR(255) NOT NULL
     texto: string;
 
 

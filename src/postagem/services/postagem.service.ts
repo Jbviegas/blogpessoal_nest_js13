@@ -1,25 +1,102 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Postagem } from "../entities/postagem.entity";
-import { Repository } from "typeorm/browser/repository/Repository.js";
+import { Repository, ILike, DeleteResult } from "typeorm";
+
 
 
 @Injectable()//Define a classe de serviço para as postagens, responsável por lidar com a lógica de negócios relacionada às postagens.
-export class PostagemService{
-  
+export class PostagemService {
 
     constructor(
-          //Injeta o repositório de postagem, permitindo que as operações de banco de dados sejam realizadas através do TypeORM.
+        //Injeta o repositório de postagem, permitindo que as operações de banco de dados sejam realizadas através do TypeORM.
         @InjectRepository(Postagem)
         private postagemRepository: Repository<Postagem>,//Esse repository é basicamente uma classe pronta com métodos
         // (find(), findOne(), save(), delete(), update(), createQueryBuilder()) para executar operações SQL automáticas no banco de dados.
-    ) {}
+    ) { }
+
+    
+
+    //Métodos
 
     async findAll(): Promise<Postagem[]> {
         // Lógica para buscar todas as postagens / Select * from tb_postagens
         return this.postagemRepository.find();
     }
+
+
+
+    async findById(id: number): Promise<Postagem> {
+        // Lógica para buscar uma postagem por ID / Select * from tb_postagens where id = ?
+
+        const postagem = await this.postagemRepository.findOne({
+            where: {
+                id
+            }
+        });
+        if (!postagem) {
+            throw new HttpException('Postagem não encontrada', HttpStatus.NOT_FOUND);
+        }
+        return postagem;
+    }
+
+
+
+    async findAllByTitulo(titulo: string): Promise<Postagem[]> {
+        // Lógica para buscar postagens por título / Select * from tb_postagens where titulo like '%titulo%'
+        return this.postagemRepository.find({
+            where: {
+                titulo: ILike(`%${titulo}%`)
+            }
+        });
+    }
+
+
+
+    async create(postagem: Postagem): Promise<Postagem> {
+        // Lógica para criar uma nova postagem / Insert into tb_postagens (titulo, conteudo) values (?, ?)
+        return this.postagemRepository.save(postagem);
+    }// O método save() do TypeORM é usado para salvar uma entidade no banco de dados. Ele pode ser usado tanto para criar uma nova
+    //  entidade quanto para atualizar uma entidade existente, dependendo se a entidade já possui um ID ou não.
+
+//--------------------------------------------------------------------------------------------------------------------------------//
+
+// UPDATE tb_postagens SET titulo = ?, 
+    // texto = ? , 
+    // data = CURRENT_TIMESTAMP()
+    // WHERE id = ?;
+    async update(postagem: Postagem): Promise<Postagem>{//INjetando o objeto postagem para atualizar a postagem existente
+    // Lógica para atualizar uma postagem existente / Update tb_postagens set titulo = ?, conteudo = ? where id = ?
+    if (!postagem.id || postagem.id <= 0)//Verificando se o ID da postagem é válido, ou seja, se ele existe e é um número positivo.
+
+      throw new HttpException("O ID da postagem é inválido!", HttpStatus.BAD_REQUEST);
+    // Se o ID for inválido, lança uma exceção HTTP com status 400 (Bad Request) e uma mensagem de erro indicando que o ID da
+    //  postagem é inválido.
+
+    await
+     this.findById(postagem.id);//Verificando se a postagem existe antes de tentar atualizar, para evitar erros de atualização
+     //  em postagens inexistentes.
+
+    return this.postagemRepository.save(postagem);
+    // O método save() do TypeORM é usado para salvar uma entidade no banco de dados. Ele pode ser usado tanto para criar uma nova
+    //  entidade quanto para atualizar uma entidade existente, dependendo se a entidade já possui um ID ou não. Neste caso, como a postagem
+    //  já possui um ID válido, o método save() irá atualizar a postagem existente no banco de dados com os novos valores fornecidos.
+  }
+
+
+
+  async delete(id: number): Promise<DeleteResult>{
+    
+    await this.findById(id);
+
+    // DELETE tb_postagens FROM id = ?;
+    return this.postagemRepository.delete(id);
+    
+  }
+
 }
+
+
 
 //O TypeORM cria um objeto assim: Repository<Postagem>
 

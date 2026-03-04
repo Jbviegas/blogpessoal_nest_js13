@@ -11,4 +11,4 @@ import { PostagemController } from "./controllers/postagem.controllers";
 })
 export class PostagemModule { }
 
-//Instancia o módulo de postagem, importando o TypeOrmModule para a entidade Postagem, e registrando o controlador e serviço de postagem.
+//Instancia o módulo de Postagem, importando o TypeOrmModule para a entidade Postagem, e registrando o controlador e serviço de postagem.
