@@ -1,28 +1,31 @@
-import { Controller, Get, HttpStatus, ParseIntPipe, Param, HttpCode, Post, Body, HttpException, Delete, Put } from "@nestjs/common";
+import { Controller, Get, HttpStatus, ParseIntPipe, Param, HttpCode, Post, Body, Delete, Put } from "@nestjs/common";
 import { PostagemService } from "../services/postagem.service";
 import { Postagem } from "../entities/postagem.entity";
-import { DeleteResult } from "typeorm";
 
 
 
-@Controller("/postagens")//Define a rota base para as postagens, permitindo que as requisições sejam direcionadas para este controlador.
-export class PostagemController {
-    postagemRepository: any;
+//Define a rota base para as postagens, permitindo que as requisições sejam direcionadas para este controlador
+@Controller('/postagens')
+export class PostagemController {//Define a classe de controlador para as postagens, responsável por lidar com as requisições HTTP relacionadas 
+// às postagens.
 
-    constructor(
-        private readonly postagemService: PostagemService,
-        /*  Injeta o serviço de postagem no controlador, permitindo que as operações relacionadas às postagens sejam realizadas através do
-             serviço. */
-    ) { }
 
-    
+    //Construtor do tipo associação, onde a classe de serviço de postagem(PostagemService) é injetada no controlador,
+    //  permitindo que as operações relacionadas às postagens sejam realizadas através do serviço(PostagemService).
+    constructor(private readonly postagemService: PostagemService) {}
+    // Injeta o serviço de postagem no controlador, permitindo que as operações relacionadas às postagens sejam realizadas através do serviço.
 
-    @Get()
-    @HttpCode(HttpStatus.OK)
-    findAll(): Promise<Postagem[]> {
-        //Define um endpoint GET para buscar todas as postagens, retornando um array de objetos Postagem.
-        return this.postagemService.findAll();// Lógica para buscar todas as postagens / Select * from tb_postagens
+    @Get()//Define um manipulador de rota para requisições GET na rota base (/postagens), que é usada para buscar todas as postagens disponíveis
+    //  no banco de dados.
+    @HttpCode(HttpStatus.OK)//Define o código de status HTTP 200 (OK) para a resposta dessa rota, indicando que a requisição foi bem-sucedida.
+    findAll(): Promise<Postagem[]> {//O método findAll() é um método que retorna uma Promise contendo um array de objetos do tipo Postagem.
+    //  Ele é usado para buscar todas as postagens disponíveis no banco de dados.
+
+        return this.postagemService.findAll();
+        // O método findAll() do serviço de postagem é chamado para buscar todas as postagens disponíveis no banco de dados,
+        //  e o resultado é retornado como resposta da rota.
     }
+
 
 
 
