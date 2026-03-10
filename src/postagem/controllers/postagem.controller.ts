@@ -1,10 +1,12 @@
 import { Controller, Get, HttpStatus, ParseIntPipe, Param, HttpCode, Post, Body, Delete, Put } from "@nestjs/common";
 import { PostagemService } from "../services/postagem.service";
 import { Postagem } from "../entities/postagem.entity";
-
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth-guard";
+import { UseGuards } from "@nestjs/common";
 
 
 //Define a rota base para as postagens, permitindo que as requisições sejam direcionadas para este controlador
+@UseGuards(JwtAuthGuard)
 @Controller('/postagens')
 export class PostagemController {//Define a classe de controlador para as postagens, responsável por lidar com as requisições HTTP relacionadas 
 // às postagens.

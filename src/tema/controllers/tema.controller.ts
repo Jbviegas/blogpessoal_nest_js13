@@ -2,8 +2,11 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPip
 
 import { TemaService } from "../services/tema.service";
 import { Tema } from "../entities/tema.entity";
-
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth-guard";
+import { UseGuards } from "@nestjs/common";
 //Define a rota base para os temas, permitindo que as requisições sejam direcionadas para este controlador
+
+@UseGuards(JwtAuthGuard)
 @Controller('/temas')
 export class TemaController {//Define a classe de controlador para os temas, responsável por lidar com as requisições HTTP relacionadas 
 // às postagens.

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Tema } from './entities/tema.entity';
 import { TemaService } from './services/tema.service';
-import { TemaController } from './controllers/tema.controllers';
+import { TemaController } from './controllers/tema.controller';
 
 //Decorador @Module é usado para definir um módulo no NestJS, que é uma forma de organizar o código em unidades coesas.
 //  O módulo de tema é responsável por agrupar os componentes relacionados aos temas, como o serviço e o controlador.
@@ -13,7 +13,8 @@ import { TemaController } from './controllers/tema.controllers';
     //Importação de módulos necessários para o módulo de tema:
 
     imports: [TypeOrmModule.forFeature([Tema])],
-    //Importa o TypeOrmModule para a entidade Tema, permitindo que o módulo de tema tenha acesso às operações de banco de dados relacionadas aos temas.
+    //Importa o TypeOrmModule para a entidade Tema, permitindo que o módulo de tema tenha acesso às operações de banco de dados relacionadas
+    //  aos temas.
 
 
 

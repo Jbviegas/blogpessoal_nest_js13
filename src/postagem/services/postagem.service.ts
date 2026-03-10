@@ -25,7 +25,16 @@ export class PostagemService {
     async findAll(): Promise<Postagem[]> {//O método findAll() é um método assíncrono que retorna uma Promise
         //contendo um array de objetos do tipo Postagem. Ele é usado para buscar todas as postagens disponíveis no banco de dados.
         // Select * from tb_postagens
-        return this.postagemRepository.find();
+        
+        return this.postagemRepository.find(
+            {
+                relations:{
+                    tema: true,
+                    usuario: true
+                }
+            }
+        );
+        
     }
 
 
@@ -36,6 +45,10 @@ export class PostagemService {
         const postagem = await this.postagemRepository.findOne({
             where: {
                 id
+            },
+            relations:{
+                tema: true,
+                usuario: true
             }
         });
         if (!postagem) {
@@ -51,6 +64,10 @@ export class PostagemService {
         return this.postagemRepository.find({
             where: {
                 titulo: ILike(`%${titulo}%`)
+            },
+            relations:{
+                tema: true,
+                usuario: true
             }
         });
     }
