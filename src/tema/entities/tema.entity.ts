@@ -2,10 +2,15 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { IsNotEmpty, Length } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
 import { Postagem } from "../../postagem/entities/postagem.entity";
+import { identity } from "rxjs";
 
 
 @Entity({ name: 'tb_temas' })//Criando a tabela no banco de dados / CREATE TABLE tb_temas
+// (id int primary key auto_increment, descricao varchar(100) not null);
+
 export class Tema {//Define a classe de entidade Tema, que representa a tabela "tb_temas" no banco de dados.
+    // Cada instância da classe Tema corresponde a um registro na tabela "tb_temas".
+    
     @PrimaryGeneratedColumn()
     id: number;
 

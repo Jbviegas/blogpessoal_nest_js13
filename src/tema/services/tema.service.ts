@@ -8,13 +8,16 @@ import { DeleteResult } from "typeorm/browser";
 
 @Injectable()//Define a classe de serviço para os temas, responsável por lidar com a lógica de negócios relacionada aos temas.
 export class TemaService {//O serviço é uma classe que contém métodos para realizar operações relacionadas aos temas, como criar, buscar,
-  //  atualizar e excluir temas. Ele atua como uma camada intermediária entre o controlador (que lida com as requisições HTTP)
-  //  e o repositório (que lida com a persistência de dados no banco de dados).
+  // atualizar e excluir temas. Ele atua como uma camada intermediária entre o controlador (que lida com as requisições HTTP) 
+  // e o repositório (que lida com a persistência de dados no banco de dados).
+  
   constructor(
-    //Injeta o repositório de tema, permitindo que as operações de banco de dados sejam realizadas através do:
-    //  TypeORM(que é um ORM - Object-Relational Mapping - que facilita a interação com o banco de dados, 
-    // convertendo objetos JavaScript em comandos SQL).
-    @InjectRepository(Tema)
+   
+    @InjectRepository(Tema) //Injeta o repositório de tema, permitindo que as operações de banco de dados sejam realizadas através do:
+    //TypeORM(que é um ORM - Object-Relational Mapping - que facilita a interação com o banco de dados,
+    //  convertendo objetos JavaScript em comandos SQL). 
+   
+
     private temaRepository: Repository<Tema>//Esse repository é basicamente uma classe pronta com métodos
     // (find(), findOne(), save(), delete(), update(), createQueryBuilder()) para executar operações SQL automáticas no banco de dados.
   ) { }
