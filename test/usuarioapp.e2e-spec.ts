@@ -103,8 +103,8 @@ it('05 - Deve atualizar os dados de um usuário cadastrado', async () => {
 
   expect(resposta.status).toBe(200);
 
-  token = resposta.body.token;
 });
+
 
 it("06 - Deve buscar um usuário pelo id", async () => {
   const resposta = await request(app.getHttpServer())

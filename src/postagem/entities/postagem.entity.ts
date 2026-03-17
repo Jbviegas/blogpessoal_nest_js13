@@ -3,20 +3,25 @@ import { IsNotEmpty, Length } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
 import { Tema } from "../../tema/entities/tema.entity";
 import { Usuario } from "../../usuario/entities/usuario.entity";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity({ name: 'tb_postagens' })//Criando a tabela no banco de dados / CREATE TABLE tb_postagens
 export class Postagem {//Definindo a entidade Postagem, que representa a tabela tb_postagens no banco de dados. 
 // A anotação @Entity é usada para marcar a classe como uma entidade do TypeORM, e o nome da tabela é especificado como 'tb_postagens'.
 
+    @ApiProperty()  
     @PrimaryGeneratedColumn()//Gerar o id automaticamente /PRIMARY KEY id INT AUTO_INCREMENT
     id: number;
 
 
+    @ApiProperty()  
     @Transform(({ value }: TransformFnParams) => value?.trim())//Validação para retirar os espaços em branco no início e no final do campo
     @IsNotEmpty()//Validação para não aceitar campos vazios
     @Column({ length: 100, nullable: false })//Criando a coluna no banco de dados / CREATE TABLE titulo VARCHAR(255) NOT NULL
     titulo: string;
 
+
+    @ApiProperty()  
     @Transform(({ value }: TransformFnParams) => value?.trim())//Validação para retirar os espaços em branco no início e no final do campo
     @IsNotEmpty()//Validação para não aceitar campos vazios
     @Length(10, 1000, { message: "O texto deve ter entre 10 e 1000 caracteres" })
@@ -25,9 +30,12 @@ export class Postagem {//Definindo a entidade Postagem, que representa a tabela 
     texto: string;
 
 
+    @ApiProperty()  
     @UpdateDateColumn()//Criar a coluna de data de atualização no banco de dados / CREATE TABLE data DATETIME
     data: Date;
 
+
+    @ApiProperty({type: () => Tema})
     @ManyToOne(() => Tema, (tema) => tema.postagem, {//Lá em Tema, a propriedade postagem é um array de Postagem(postagem: Postagem[]),
     // indicando que um tema pode ter várias postagens associadas a ele.
     
@@ -45,7 +53,7 @@ export class Postagem {//Definindo a entidade Postagem, que representa a tabela 
     //Essa associação permite que as postagens sejam organizadas e categorizadas com base nos temas aos quais pertencem.
     //Representa a chave estrangeira que estabelece o relacionamento entre a tabela de postagens e a tabela de temas no banco de dados.
 
-    
+    @ApiProperty({ type: () => Usuario })  
     @ManyToOne(() => Usuario, (usuario) => usuario.postagem, {//Lá em Usuario, a propriedade postagem é um array de Postagem(postagem: Postagem[]),
     // indicando que um usuario pode ter várias postagens associadas a ele.
 

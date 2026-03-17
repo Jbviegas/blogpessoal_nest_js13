@@ -4,10 +4,13 @@ import { TemaService } from "../services/tema.service";
 import { Tema } from "../entities/tema.entity";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth-guard";
 import { UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 //Define a rota base para os temas, permitindo que as requisições sejam direcionadas para este controlador
 
+@ApiTags('Tema')
 @UseGuards(JwtAuthGuard)
-@Controller('/temas')
+@Controller("/temas")
+@ApiBearerAuth()
 export class TemaController {//Define a classe de controlador para os temas, responsável por lidar com as requisições HTTP relacionadas 
 // às postagens.
 

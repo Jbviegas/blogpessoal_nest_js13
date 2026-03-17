@@ -1,10 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   //Cria uma instância da aplicação NestJS usando o módulo principal AppModule, que configura a aplicação e seus módulos.
   const app = await NestFactory.create(AppModule);
+
+  const config = new DocumentBuilder()
+  .setTitle('Blog Pessoal')
+  .setDescription('Projeto Blog Pessoal')
+  .setContact("Josue Viegas","https://portifolio-alpha-fawn-62.vercel.app/","barretoviegasjosue@email.com")
+  .setVersion('1.0')
+  .addBearerAuth()
+  .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('/swagger', app, document);
 
   process.env.TZ = '-03:00';
   //Configura o fuso horário para a aplicação, garantindo que as operações de data e hora sejam realizadas no fuso horário correto.
