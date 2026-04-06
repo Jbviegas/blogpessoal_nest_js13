@@ -10,11 +10,13 @@ import { ProdService } from './data/services/prod.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRootAsync({
-      useClass: ProdService,
-      imports: [ConfigModule],
-    }),
+  ConfigModule.forRoot({
+    isGlobal: true,
+  }),
+  TypeOrmModule.forRootAsync({
+    useClass: ProdService,
+    imports: [ConfigModule],
+  }),
     PostagemModule,
     //Instancia o módulo de postagem(PostagemModule), importando o TypeOrmModule para a entidade Postagem, e registrando o controlador e serviço de postagem.
 
